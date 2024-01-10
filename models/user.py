@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ holds class User"""
+import hashlib
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -16,8 +17,16 @@ class User(BaseModel, Base):
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        places = relationship(
+            "Place",
+            cascade="all, delete, delete-orphan",
+            backref="user"
+        )
+        reviews = relationship(
+            "Review",
+            cascade="all, delete, delete-orphan",
+            backref="user"
+        )
     else:
         email = ""
         password = ""
